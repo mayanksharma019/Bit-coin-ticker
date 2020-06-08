@@ -10,9 +10,15 @@ app.get("/",function(req,res){
 });
 
 app.post("/",function(req,res){
-//  console.log(req.body.crypto);
-request(" https://apiv2.bitcoinaverage.com/indices/global/ticker/BTCUSD",function(error,response,body){
-console.log(response.statusCode);
+  var crypto=req.body.crypto;
+  var fiat=req.body.fiat;
+  var baseUrl="https://apiv2.bitcoinaverage.com/indices/global/ticker/";
+  var finalUrl=baseUrl+crypto+fiat;
+request(finalUrl,function(error,response,body){
+var data=JSON.parse(body);
+var price=data.last;
+res.send("<h1>The current price of " + crypto+"is: "+price+fiat+"USD</h1>");
+
 });
 });
 
